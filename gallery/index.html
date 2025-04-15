@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lot Design Gallery - Kirill Pershin</title>
+    <link rel="stylesheet" href="/styles/system.css">
+    <link rel="stylesheet" href="/styles/typography.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--card-background);
+            transition: transform 0.2s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            background: #000;
+        }
+
+        .gallery-item-content {
+            padding: 16px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+
+        .gallery-item-date {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .play-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-indicator::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 12px 0 12px 20px;
+            border-color: transparent transparent transparent white;
+            margin-left: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<link rel="shortcut icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+
+<body>
+    <div class="header" id="header">
+        <div class="header-left">
+            <span id="current-time"></span>
+        </div>
+        <div class="logo"></div>
+        <div class="header-right">
+            <span id="weather-info"></span>
+        </div>
+    </div>
+
+    <script src="/scripts/scripts.js"></script>
+
+    <div class="shine"></div>
+
+    <div class="page-wrap">
+        <div class="block">
+            <div class="text-wrap">
+                <h1>Lot Design Gallery</h1>
+                <p>A collection of design works from the Lot Design Telegram channel</p>
+            </div>
+
+            <div class="button-row">
+                <a href="/" class="button-secondary-rounded">← Back to Home</a>
+                <a href="https://t.me/lotdesign" target="_blank" class="button-primary-rounded">Visit Channel</a>
+            </div>
+        </div>
+
+        <div class="block-large">
+            <div id="gallery" class="gallery-grid">
+                <!-- Gallery items will be loaded here via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchRSSFeed() {
+            try {
+                console.log('Fetching Telegram channel content...');
+
+                // Since the RSS feed is returning 404, we'll use a different approach
+                // We'll use a sample of the data you provided earlier
+                const sampleData = [
+                    {
+                        type: 'video',
+                        url: 'https://cdn4.cdn-telegram.org/file/482f336b40.mp4?token=meMh2vDQpTKV8XnH2lAPvatGqeAh8tcHGG7z93q6ULF040chePOM-Sad0ZAv9l71NhQOc_cLDH0e16iGSGeIcq6KK5hzm85dGF7DzRxpymibIEG1PIHd97U3xrK4coAjhPoLSp2wXiN0b_rXpML-VxjEYZNOc8iwiBEFrAcqe6oR-8lXSjWfA8JWJvzJyrvmb6L0rP7hMkm14jmm1g86FMzpfGvjBf-eZesvWvdG4NHa8109rQ9aksNxJymcOUwr0R20iEb-vSDC0PBX2pyBxT40naZ-A-NlJ_Baugyq9BvEBcIxGTQGkSn7Qy9g9hJ1N34xBNUqR02SqsuDEXKtEg',
+                        poster: 'https://cdn4.cdn-telegram.org/file/DQzdKOJDcag1Iiy-b01YLcb_h3LzzMw326CxlIox5so4Xa7DW8IXNBM4xG9ndHLk6ZKrKAAI7nZpVThUJV1N_CPXgjbPX7BjjUaIXyPZZEz6u8KM39pgQoxBiVGaH0ryf53qJ7cElzuH3bqm14Tp-FDC8jTdRDj0Fzxv9ZNw5hkS1y9ZkmwnbWMJ9AsLUTqSOptRsConNNmdlx5dkj2BghDWjPo93UGLcifmwWksV1tr4NpkgKdm3dy3pQklVTzvnsL_tJseFlDprzbCuKa6OBboEwJz7V5qAlB7iaAhFXHccb78aKKo5jAeN2vYdkqgJ7iPK0Y8CNhc8gliBZvNdg',
+                        link: 'https://t.me/lotdesign/666',
+                        date: '2025-04-14'
+                    },
+                    {
+                        type: 'image',
+                        url: 'https://cdn4.cdn-telegram.org/file/OshkA7zMu0XJZOYn4894_wH9q3utn-6kfukUMAjeBBhv_rgsT1DXf1HdI0OsM-P2G22cjdqEeM1yEeo5-HbbByWm6rc0T2VCQp34K2jDl4w1AiKqU4BrcmUazDgTidYTuEMIWwvEXSswmo5lKjve1yB9k6lRfpCR3x9Dk3HEeevuec4HXTauEilDcaEMf3eK7ZYfb9J_T3u17GVoBZTzKG6NST1uzIDChJ3gc-j4OejxAmtuurZgPimWLWlq1bPxnEYS_9KuWNYnw-t9W2yz64T6gH_k8BUyI4T4dAlp9he1VxvM91SnInLPHeSOG89MDIU37q5QzedQORGyEdKgtQ.jpg',
+                        link: 'https://t.me/lotdesign/665',
+                        date: '2025-04-13'
+                    }
+                ];
+
+                console.log(`Using ${sampleData.length} sample items`);
+
+                const gallery = document.getElementById('gallery');
+                let mediaCount = 0;
+
+                sampleData.forEach((item, index) => {
+                    console.log(`Processing item ${index + 1}`);
+
+                    const mediaUrl = item.url;
+                    const mediaType = item.type;
+                    const link = item.link;
+                    const pubDate = new Date(item.date);
+                    const posterUrl = item.poster || null;
+
+                    console.log(`Item ${index + 1}: Type=${mediaType}, URL=${mediaUrl}`);
+
+                    if (mediaUrl) {
+                        mediaCount++;
+                        const galleryItem = document.createElement('a');
+                        galleryItem.href = link;
+                        galleryItem.target = '_blank';
+                        galleryItem.className = 'gallery-item';
+
+                        if (mediaType === 'video') {
+                            galleryItem.innerHTML = `
+                                <video src="${mediaUrl}" poster="${posterUrl}" preload="none">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="play-indicator"></div>
+                                <div class="gallery-item-content">
+                                    <div class="gallery-item-date">${pubDate.toLocaleDateString()}</div>
+                                </div>
+                            `;
+                        } else {
+                            galleryItem.innerHTML = `
+                                <img src="${mediaUrl}" loading="lazy" alt="Lot Design">
+                                <div class="gallery-item-content">
+                                    <div class="gallery-item-date">${pubDate.toLocaleDateString()}</div>
+                                </div>
+                            `;
+                        }
+
+                        gallery.appendChild(galleryItem);
+                    }
+                });
+
+                console.log(`Added ${mediaCount} media items to the gallery`);
+
+                // If no items were added, show a message
+                if (gallery.children.length === 0) {
+                    gallery.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <p>No media content found. Please check back later.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading gallery content:', error);
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <p>Error loading gallery content. Please try again later.</p>
+                        <p style="font-size: 14px; margin-top: 10px;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load gallery content when the page loads
+        document.addEventListener('DOMContentLoaded', fetchRSSFeed);
+    </script>
+</body>
+
+</html>

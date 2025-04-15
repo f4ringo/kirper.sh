@@ -1,0 +1,227 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 24px;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: 0.2s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.header.scrolled {
+    background-color: #08021C;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-left,
+.header-right {
+    font-style: normal;
+    font-family: 'TWK';
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.02em;
+    color: white;
+    opacity: 0.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.logo {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-image: url(/assets/images/svg/logo.svg);
+    opacity: 0.4;
+    left: calc(50% - 24px/2);
+    top: calc(50% - 24px/2);
+}
+
+.button-primary-rounded {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 16px;
+    height: 40px;
+    border-radius: 20px;
+    background: white;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+
+    font-family: 'TWK';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-primary-rounded:hover {
+    opacity: 0.8;
+    scale: 0.98;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.button-secondary-rounded {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 16px;
+    height: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.16);
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+
+    font-family: 'TWK';
+    font-style: normal;
+    font-weight: 600;
+    color: white;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-secondary-rounded:hover {
+    opacity: 0.8;
+    scale: 0.98;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 8px;
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.card-link {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+}
+
+.card:hover {
+    opacity: 0.8;
+    scale: 0.98;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+}
+
+.card-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.icon.book {
+    background-image: url(/assets/images/svg/book.svg);
+}
+
+.icon.linkbase {
+    background-image: url(/assets/images/svg/linkbase.svg);
+}
+
+.icon.gallery {
+    background-image: url(/assets/images/svg/gallery.svg);
+}
+
+.cell {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.cell-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.cell-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.cell-icon.telegram {
+    background-image: url(/assets/images/awards/telegram.svg);
+}
+
+.cell-icon.adce {
+    background-image: url(/assets/images/awards/adce.svg);
+}
+
+.cell-icon.reddot {
+    background-image: url(/assets/images/awards/reddot.svg);
+}
+
+.cell-icon.ifdesign {
+    background-image: url(/assets/images/awards/ifdesign.svg);
+}
+
+.cell-link {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.cell-link:hover {
+    opacity: 0.8;
+    scale: 0.98;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.avatar {
+    width: 144px;
+    height: 144px;
+}
+
+.image {
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.image:hover {
+    opacity: 0.8;
+    scale: 0.98;
+    transition: 0.4s cubic-bezier(0.4, 0.24, 0, 1);
+}
+
+.shine {
+    position: absolute;
+    height: 133px;
+    width: 100%;
+    left: 0;
+    top: 372px;
+    background: linear-gradient(90deg, #4200FF 0%, #FF00EE 100%);
+    filter: blur(128px);
+    z-index: -1;
+}
