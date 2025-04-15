@@ -1,3 +1,2 @@
 # kirper.sh
-# kirper.sh
-# kirper.sh
+just a personal site
