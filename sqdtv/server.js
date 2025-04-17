@@ -18,31 +18,62 @@ app.get('/sqdtv/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Store active streams and users
+const activeStreams = {};
+const activeUsers = {};
+
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-    console.log('New user connected, socket id:', socket.id);
+    console.log('Client connected:', socket.id);
 
-    // Handle stream updates
+    // Send existing streams to new client
+    socket.emit('existingStreams', activeStreams);
+
+    // Handle stream start/update
     socket.on('streamUpdate', (data) => {
-        console.log('Stream update received from', socket.id, ':', data);
-        io.emit('streamUpdate', data);
+        console.log('Stream update:', data);
+        activeStreams[data.id] = {
+            type: data.type,
+            channel: data.channel,
+            position: data.position
+        };
+        socket.broadcast.emit('streamUpdate', data);
     });
 
-    // Handle chat messages
-    socket.on('chatMessage', (data) => {
-        console.log('Chat message received from', socket.id, ':', data);
-        io.emit('chatMessage', data);
+    // Handle user movement with interpolation
+    socket.on('userMoved', (data) => {
+        const user = activeUsers[data.username];
+        if (user) {
+            user.position = data.position;
+            user.timestamp = Date.now();
+            socket.broadcast.emit('userMoved', {
+                username: data.username,
+                position: data.position,
+                timestamp: user.timestamp
+            });
+        }
     });
 
     // Handle user joining
     socket.on('userJoined', (data) => {
-        console.log('User joined event received from', socket.id, ':', data);
-        io.emit('userJoined', data);
+        console.log('User joined:', data);
+        activeUsers[data.username] = {
+            position: data.position,
+            timestamp: Date.now()
+        };
+        socket.broadcast.emit('userJoined', data);
+    });
+
+    // Handle chat messages
+    socket.on('chatMessage', (data) => {
+        console.log('Chat message:', data);
+        io.emit('chatMessage', data);
     });
 
     // Handle user leaving
     socket.on('disconnect', () => {
-        console.log('User disconnected, socket id:', socket.id);
+        console.log('Client disconnected:', socket.id);
+        // Clean up user data if needed
     });
 });
 

@@ -4,12 +4,66 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'TWK', sans-serif;
+    background-image:
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(8, 2, 28, 0.8) 100%);
+    z-index: 1;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    padding-bottom: 80px;
+}
+
+.canvas-container {
+    display: flex;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+    overflow: hidden;
+}
+
+#canvas-wrapper {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#main-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 .modal {
@@ -162,5 +216,364 @@ body {
     .modal .card {
         width: 95%;
         padding: 16px;
+    }
+}
+
+/* New Widget Toolbar */
+#widget-toolbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(32, 33, 36, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#widget-toolbar .toolbar-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px;
+}
+
+#widget-toolbar .toolbar-button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0 24px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 130px;
+}
+
+#widget-toolbar .toolbar-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+#widget-toolbar .toolbar-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    #widget-toolbar {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    #widget-toolbar .toolbar-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    #widget-toolbar .toolbar-button {
+        min-width: 110px;
+        padding: 0 16px;
+        font-size: 13px;
+    }
+}
+
+/* Remove old widget panel styles */
+.widget-panel,
+.widget-panel-toggle,
+.widget-buttons,
+.widget-button {
+    display: none !important;
+}
+
+/* Widgets Container */
+#widgets-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Individual Widgets */
+.widget {
+    position: absolute;
+    background: none !important;
+    border-radius: 0;
+    padding: 0;
+    min-width: 300px;
+    min-height: 200px;
+    pointer-events: none;
+    resize: horizontal;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget * {
+    pointer-events: auto;
+}
+
+.widget iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.widget-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.8);
+    border: none;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Stream Widget Specific Styles */
+.stream-widget {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: none !important;
+    min-width: 320px;
+    width: 480px;
+    resize: none;
+    overflow: visible;
+    box-shadow: none;
+    height: auto !important;
+}
+
+.stream-widget .widget-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px;
+    background: none;
+    margin-bottom: 8px;
+    pointer-events: none;
+}
+
+.stream-widget .control-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(64, 64, 64, 0.9);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background 0.2s ease;
+    pointer-events: auto;
+}
+
+.stream-widget .control-button:hover {
+    background: rgba(80, 80, 80, 0.9);
+}
+
+.stream-widget .control-button.search {
+    cursor: pointer;
+}
+
+.stream-widget .control-button.move {
+    cursor: move;
+}
+
+.stream-widget .control-button.close {
+    background: rgba(64, 64, 64, 0.9);
+}
+
+.stream-widget .control-button.close:hover {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+.stream-widget .widget-content {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: none;
+    height: auto !important;
+}
+
+.stream-widget .player-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 0 !important;
+}
+
+.stream-widget .player-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 16px;
+}
+
+.stream-widget .channel-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+    border-radius: 0 0 16px 16px;
+}
+
+.stream-widget .search-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 16px;
+}
+
+.stream-widget .search-overlay.active {
+    display: flex;
+}
+
+.stream-widget .search-overlay input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+}
+
+.stream-widget .search-overlay button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+}
+
+.stream-widget .search-overlay button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Hide default close button */
+.stream-widget .widget-close {
+    display: none;
+}
+
+/* Resize handle */
+.stream-widget .resize-handle {
+    position: absolute;
+    right: -5px;
+    bottom: 50%;
+    transform: translateY(50%);
+    width: 20px;
+    height: 40px;
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: auto;
+    background: rgba(64, 64, 64, 0.9);
+    border-radius: 4px;
+}
+
+.stream-widget:hover .resize-handle {
+    opacity: 1;
+}
+
+.stream-widget .resize-handle::after {
+    content: '⋮⋮';
+    font-size: 12px;
+    letter-spacing: -2px;
+}
+
+/* Ensure minimum and maximum sizes */
+.stream-widget {
+    min-width: 320px;
+    max-width: 1280px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .widget {
+        min-width: 250px;
+        min-height: 150px;
+    }
+
+    .widget-panel {
+        padding: 12px;
+    }
+
+    .widget-buttons {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .widget-button {
+        min-width: 120px;
+        font-size: 13px;
+        padding: 0 16px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .widget {
+        min-width: 200px;
+        min-height: 120px;
+    }
+
+    .widget-panel {
+        padding: 8px;
+    }
+
+    .widget-button {
+        min-width: calc(50% - 8px);
+        flex: 1 1 auto;
     }
 }
