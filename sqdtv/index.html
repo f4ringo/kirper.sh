@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQDTV - Watch Kick Streams Together</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/system.css">
+    <link rel="stylesheet" href="../styles/typography.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="../" class="button-secondary-rounded">← Back</a>
+        </div>
+        <div class="logo"></div>
+        <div class="header-right">SQDTV</div>
+    </div>
+
+    <div class="container">
+        <div id="username-modal" class="modal">
+            <div class="card">
+                <h2>Enter Your Username</h2>
+                <input type="text" id="username-input" placeholder="Your username" class="input-field">
+                <button class="button-primary-rounded" onclick="setUsername()">Join Chat</button>
+            </div>
+        </div>
+
+        <div class="stream-container">
+            <div class="stream-section">
+                <div class="stream-input">
+                    <input type="text" id="channel-input" placeholder="Enter Kick channel username" class="input-field">
+                    <button class="button-primary-rounded" onclick="loadStream()">Load Stream</button>
+                    <button class="button-secondary-rounded" onclick="removeStream()">Remove Stream</button>
+                </div>
+                <div id="stream-player" class="stream-player">
+                    <!-- Stream will be loaded here -->
+                </div>
+            </div>
+
+            <div class="chat-section">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="Type a message..." class="input-field">
+                    <button class="button-primary-rounded" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
