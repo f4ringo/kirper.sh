@@ -1,13 +1,36 @@
 {
   "name": "sqdtv",
-  "version": "1.0.0",
-  "description": "Watch Kick streams together",
-  "main": "server.js",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A real-time social canvas application",
   "scripts": {
-    "start": "node server.js"
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "socket.io": "^4.7.2"
+  "keywords": [
+    "vue",
+    "fastify",
+    "websocket",
+    "social",
+    "canvas"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
   }
 } 
